@@ -286,21 +286,22 @@ struct GLFWmonitor;
 struct GLFWwindow;
 
 extern( C ) nothrow {
-    alias void function( int, const( char )* ) GLFWerrorfun;
-    alias void function( GLFWwindow*, int, int ) GLFWwindowposfun;
-    alias void function( GLFWwindow*, int, int ) GLFWwindowsizefun;
-    alias void function( GLFWwindow* ) GLFWwindowclosefun;
-    alias void function( GLFWwindow* ) GLFWwindowrefreshfun;
-    alias void function( GLFWwindow*, int ) GLFWwindowfocusfun;
-    alias void function( GLFWwindow*, int ) GLFWwindowiconifyfun;
-    alias void function( GLFWwindow*, int, int ) GLFWframebuffersizefun;
-    alias void function( GLFWwindow*, int, int, int ) GLFWmousebuttonfun;
-    alias void function( GLFWwindow*, double, double ) GLFWcursorposfun;
-    alias void function( GLFWwindow*, int ) GLFWcursorenterfun;
-    alias void function( GLFWwindow*, double, double ) GLFWscrollfun;
-    alias void function( GLFWwindow*, int, int, int, int ) GLFWkeyfun;
-    alias void function( GLFWwindow*, uint ) GLFWcharfun;
-    alias void function( GLFWmonitor*, int ) GLFWmonitorfun;
+    alias GLFWerrorfun = void function( int, const( char )*;
+    alias GLFWwindowposfun = void function( GLFWwindow*, int, int;
+    alias GLFWwindowsizefun = void function( GLFWwindow*, int, int;
+    alias GLFWwindowclosefun = void function( GLFWwindow*;
+    alias GLFWwindowrefreshfun = void function( GLFWwindow*;
+    alias GLFWwindowfocusfun = void function( GLFWwindow*, int;
+    alias GLFWwindowiconifyfun = void function( GLFWwindow*, int;
+    alias GLFWframebuffersizefun = void function( GLFWwindow*, int, int;
+    alias GLFWmousebuttonfun = void function( GLFWwindow*, int, int, int;
+    alias GLFWcursorposfun = void function( GLFWwindow*, double, double;
+    alias GLFWcursorenterfun = void function( GLFWwindow*, int;
+    alias GLFWscrollfun = void function( GLFWwindow*, double, double;
+    alias GLFWkeyfun = void function( GLFWwindow*, int, int, int, int;
+    alias GLFWcharfun = void function( GLFWwindow*, uint;
+    alias GLFWmonitorfun = void function( GLFWmonitor*, int;
+
 }
 
 struct GLFWvidmode {
