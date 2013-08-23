@@ -286,21 +286,21 @@ struct GLFWmonitor;
 struct GLFWwindow;
 
 extern( C ) nothrow {
-    alias GLFWerrorfun = void function( int, const( char )*;
-    alias GLFWwindowposfun = void function( GLFWwindow*, int, int;
-    alias GLFWwindowsizefun = void function( GLFWwindow*, int, int;
-    alias GLFWwindowclosefun = void function( GLFWwindow*;
-    alias GLFWwindowrefreshfun = void function( GLFWwindow*;
-    alias GLFWwindowfocusfun = void function( GLFWwindow*, int;
-    alias GLFWwindowiconifyfun = void function( GLFWwindow*, int;
-    alias GLFWframebuffersizefun = void function( GLFWwindow*, int, int;
-    alias GLFWmousebuttonfun = void function( GLFWwindow*, int, int, int;
-    alias GLFWcursorposfun = void function( GLFWwindow*, double, double;
-    alias GLFWcursorenterfun = void function( GLFWwindow*, int;
-    alias GLFWscrollfun = void function( GLFWwindow*, double, double;
-    alias GLFWkeyfun = void function( GLFWwindow*, int, int, int, int;
-    alias GLFWcharfun = void function( GLFWwindow*, uint;
-    alias GLFWmonitorfun = void function( GLFWmonitor*, int;
+    alias GLFWerrorfun = void function( int, const( char )* );
+    alias GLFWwindowposfun = void function( GLFWwindow*, int, int );
+    alias GLFWwindowsizefun = void function( GLFWwindow*, int, int );
+    alias GLFWwindowclosefun = void function( GLFWwindow* );
+    alias GLFWwindowrefreshfun = void function( GLFWwindow* );
+    alias GLFWwindowfocusfun = void function( GLFWwindow*, int );
+    alias GLFWwindowiconifyfun = void function( GLFWwindow*, int );
+    alias GLFWframebuffersizefun = void function( GLFWwindow*, int, int );
+    alias GLFWmousebuttonfun = void function( GLFWwindow*, int, int, int );
+    alias GLFWcursorposfun = void function( GLFWwindow*, double, double );
+    alias GLFWcursorenterfun = void function( GLFWwindow*, int );
+    alias GLFWscrollfun = void function( GLFWwindow*, double, double );
+    alias GLFWkeyfun = void function( GLFWwindow*, int, int, int, int );
+    alias GLFWcharfun = void function( GLFWwindow*, uint );
+    alias GLFWmonitorfun = void function( GLFWmonitor*, int );
 
 }
 
