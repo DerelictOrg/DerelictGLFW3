@@ -215,7 +215,6 @@ enum {
 }
 
 enum {
-
     GLFW_NOT_INITIALIZED      = 0x00010001,
     GLFW_NO_CURRENT_CONTEXT   = 0x00010002,
     GLFW_INVALID_ENUM         = 0x00010003,
@@ -301,7 +300,6 @@ extern( C ) nothrow {
     alias GLFWkeyfun = void function( GLFWwindow*, int, int, int, int );
     alias GLFWcharfun = void function( GLFWwindow*, uint );
     alias GLFWmonitorfun = void function( GLFWmonitor*, int );
-
 }
 
 struct GLFWvidmode {
