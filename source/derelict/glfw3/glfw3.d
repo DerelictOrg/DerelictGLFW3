@@ -299,7 +299,7 @@ extern( C ) @nogc nothrow alias void function() GLFWglproc;
 struct GLFWmonitor;
 struct GLFWwindow;
 
-extern( C ) @nogc nothrow {
+extern( C ) nothrow {
     alias GLFWerrorfun = void function( int, const( char )* );
     alias GLFWwindowposfun = void function( GLFWwindow*, int, int );
     alias GLFWwindowsizefun = void function( GLFWwindow*, int, int );
