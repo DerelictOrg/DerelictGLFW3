@@ -294,12 +294,12 @@ enum {
     GLFW_DISCONNECTED           = 0x00040002,
 }
 
-extern( C ) nothrow alias void function() GLFWglproc;
+extern( C ) @nogc nothrow alias void function() GLFWglproc;
 
 struct GLFWmonitor;
 struct GLFWwindow;
 
-extern( C ) nothrow {
+extern( C ) @nogc nothrow {
     alias GLFWerrorfun = void function( int, const( char )* );
     alias GLFWwindowposfun = void function( GLFWwindow*, int, int );
     alias GLFWwindowsizefun = void function( GLFWwindow*, int, int );
@@ -333,7 +333,7 @@ struct GLFWgammaramp {
     uint size;
 }
 
-extern( C ) nothrow {
+extern( C ) @nogc nothrow {
     alias da_glfwInit = int function();
     alias da_glfwTerminate = void function();
     alias da_glfwGetVersion = void function( int*, int*, int* );
