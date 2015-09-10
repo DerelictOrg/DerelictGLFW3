@@ -456,6 +456,11 @@ extern( C ) @nogc nothrow {
         alias da_glfwGetCocoaWindow = void* function(GLFWwindow* window);
         alias da_glfwGetNSGLContext = void* function(GLFWwindow* window);
     }
+	version(Windows)
+	{
+		alias da_glfwGetWin32Window = void* function(GLFWwindow* window);
+		alias da_glfwGetWGLContext = void* function(GLFWwindow* window);
+	}
 }
 
 __gshared {
@@ -544,6 +549,11 @@ __gshared {
         da_glfwGetCocoaWindow glfwGetCocoaWindow;
         da_glfwGetNSGLContext glfwGetNSGLContext;
     }
+	version(Windows)
+	{
+		da_glfwGetWin32Window glfwGetWin32Window;
+		da_glfwGetWGLContext glfwGetWGLContext;
+	}
 }
 
 class DerelictGLFW3Loader : SharedLibLoader {
@@ -637,6 +647,11 @@ class DerelictGLFW3Loader : SharedLibLoader {
             bindFunc( cast( void** )&glfwGetCocoaWindow,"glfwGetCocoaWindow" );
             bindFunc( cast( void** )&glfwGetNSGLContext,"glfwGetNSGLContext" );
         }
+		version(Windows)
+		{
+			bindFunc( cast( void** )&glfwGetWin32Window,"glfwGetWin32Window" );
+			bindFunc( cast( void** )&glfwGetWGLContext,"glfwGetWGLContext" );
+		}
     }
 }
 
