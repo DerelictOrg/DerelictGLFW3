@@ -450,6 +450,17 @@ extern( C ) @nogc nothrow {
     alias da_glfwSwapInterval = void function( int );
     alias da_glfwExtensionSupported = int function( const( char )* );
     alias da_glfwGetProcAddress = GLFWglproc function( const( char )* );
+
+    version(darwin)
+    {
+        alias da_glfwGetCocoaWindow = void* function(GLFWwindow* window);
+        alias da_glfwGetNSGLContext = void* function(GLFWwindow* window);
+    }
+	version(Windows)
+	{
+		alias da_glfwGetWin32Window = void* function(GLFWwindow* window);
+		alias da_glfwGetWGLContext = void* function(GLFWwindow* window);
+	}
 }
 
 __gshared {
@@ -532,6 +543,17 @@ __gshared {
     da_glfwSwapInterval glfwSwapInterval;
     da_glfwExtensionSupported glfwExtensionSupported;
     da_glfwGetProcAddress glfwGetProcAddress;
+
+    version(darwin)
+    {
+        da_glfwGetCocoaWindow glfwGetCocoaWindow;
+        da_glfwGetNSGLContext glfwGetNSGLContext;
+    }
+	version(Windows)
+	{
+		da_glfwGetWin32Window glfwGetWin32Window;
+		da_glfwGetWGLContext glfwGetWGLContext;
+	}
 }
 
 class DerelictGLFW3Loader : SharedLibLoader {
@@ -619,6 +641,17 @@ class DerelictGLFW3Loader : SharedLibLoader {
         bindFunc( cast( void** )&glfwSwapInterval,"glfwSwapInterval" );
         bindFunc( cast( void** )&glfwExtensionSupported,"glfwExtensionSupported" );
         bindFunc( cast( void** )&glfwGetProcAddress,"glfwGetProcAddress" );
+
+        version(darwin)
+        {
+            bindFunc( cast( void** )&glfwGetCocoaWindow,"glfwGetCocoaWindow" );
+            bindFunc( cast( void** )&glfwGetNSGLContext,"glfwGetNSGLContext" );
+        }
+		version(Windows)
+		{
+			bindFunc( cast( void** )&glfwGetWin32Window,"glfwGetWin32Window" );
+			bindFunc( cast( void** )&glfwGetWGLContext,"glfwGetWGLContext" );
+		}
     }
 }
 
