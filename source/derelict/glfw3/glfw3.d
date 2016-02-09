@@ -31,14 +31,14 @@ private {
     import derelict.util.loader;
     import derelict.util.system;
 
-    static if( Derelict_OS_Windows )
+    static if(Derelict_OS_Windows)
         enum libNames = "glfw3.dll";
-    else static if( Derelict_OS_Mac )
+    else static if(Derelict_OS_Mac)
         enum libNames = "libglfw.3.dylib,libglfw3.dylib";
-    else static if( Derelict_OS_Posix )
+    else static if(Derelict_OS_Posix)
         enum libNames = "libglfw3.so,libglfw.so.3,/usr/local/lib/libglfw3.so,/usr/local/lib/libglfw.so.3";
     else
-        static assert( 0,"Need to implement GLFW libNames for this operating system." );
+        static assert(0,"Need to implement GLFW libNames for this operating system.");
 }
 
 enum {
@@ -311,30 +311,30 @@ enum {
     GLFW_DONT_CARE = -1,
 }
 
-extern( C ) @nogc nothrow alias void function() GLFWglproc;
+extern(C) @nogc nothrow alias void function() GLFWglproc;
 
 struct GLFWmonitor;
 struct GLFWwindow;
 struct GLFWcursor;
 
-extern( C ) nothrow {
-    alias GLFWerrorfun = void function( int,const( char )* );
-    alias GLFWwindowposfun = void function( GLFWwindow*,int,int );
-    alias GLFWwindowsizefun = void function( GLFWwindow*,int,int );
-    alias GLFWwindowclosefun = void function( GLFWwindow* );
-    alias GLFWwindowrefreshfun = void function( GLFWwindow* );
-    alias GLFWwindowfocusfun = void function( GLFWwindow*,int );
-    alias GLFWwindowiconifyfun = void function( GLFWwindow*,int );
-    alias GLFWframebuffersizefun = void function( GLFWwindow*,int,int );
-    alias GLFWmousebuttonfun = void function( GLFWwindow*,int,int,int );
-    alias GLFWcursorposfun = void function( GLFWwindow*,double,double );
-    alias GLFWcursorenterfun = void function( GLFWwindow*,int );
-    alias GLFWscrollfun = void function( GLFWwindow*,double,double );
-    alias GLFWkeyfun = void function( GLFWwindow*,int,int,int,int );
-    alias GLFWcharfun = void function( GLFWwindow*,uint );
-    alias GLFWcharmodsfun = void function( GLFWwindow*,uint,int );
-    alias GLFWdropfun = void function( GLFWwindow*,int,const( char* )* );
-    alias GLFWmonitorfun = void function( GLFWmonitor*,int );
+extern(C) nothrow {
+    alias GLFWerrorfun = void function(int,const(char)*);
+    alias GLFWwindowposfun = void function(GLFWwindow*,int,int);
+    alias GLFWwindowsizefun = void function(GLFWwindow*,int,int);
+    alias GLFWwindowclosefun = void function(GLFWwindow*);
+    alias GLFWwindowrefreshfun = void function(GLFWwindow*);
+    alias GLFWwindowfocusfun = void function(GLFWwindow*,int);
+    alias GLFWwindowiconifyfun = void function(GLFWwindow*,int);
+    alias GLFWframebuffersizefun = void function(GLFWwindow*,int,int);
+    alias GLFWmousebuttonfun = void function(GLFWwindow*,int,int,int);
+    alias GLFWcursorposfun = void function(GLFWwindow*,double,double);
+    alias GLFWcursorenterfun = void function(GLFWwindow*,int);
+    alias GLFWscrollfun = void function(GLFWwindow*,double,double);
+    alias GLFWkeyfun = void function(GLFWwindow*,int,int,int,int);
+    alias GLFWcharfun = void function(GLFWwindow*,uint);
+    alias GLFWcharmodsfun = void function(GLFWwindow*,uint,int);
+    alias GLFWdropfun = void function(GLFWwindow*,int,const(char*)*);
+    alias GLFWmonitorfun = void function(GLFWmonitor*,int);
 }
 
 struct GLFWvidmode {
@@ -359,105 +359,103 @@ struct GLFWimage {
     ubyte* pixels;
 }
 
-extern( C ) @nogc nothrow {
+extern(C) @nogc nothrow {
     alias da_glfwInit = int function();
     alias da_glfwTerminate = void function();
-    alias da_glfwGetVersion = void function( int*,int*,int* );
-    alias da_glfwGetVersionString = const( char )* function();
+    alias da_glfwGetVersion = void function(int*,int*,int*);
+    alias da_glfwGetVersionString = const(char)* function();
 
-    alias da_glfwSetErrorCallback = GLFWerrorfun function( GLFWerrorfun );
+    alias da_glfwSetErrorCallback = GLFWerrorfun function(GLFWerrorfun);
 
-    alias da_glfwGetMonitors = GLFWmonitor** function( int* );
+    alias da_glfwGetMonitors = GLFWmonitor** function(int*);
     alias da_glfwGetPrimaryMonitor = GLFWmonitor* function();
-    alias da_glfwGetMonitorPos = void function( GLFWmonitor*,int*,int* );
-    alias da_glfwGetMonitorPhysicalSize = void function( GLFWmonitor*,int*,int* );
-    alias da_glfwGetMonitorName = const( char )* function( GLFWmonitor* );
-    alias da_glfwSetMonitorCallback = GLFWmonitorfun function( GLFWmonitorfun );
+    alias da_glfwGetMonitorPos = void function(GLFWmonitor*,int*,int*);
+    alias da_glfwGetMonitorPhysicalSize = void function(GLFWmonitor*,int*,int*);
+    alias da_glfwGetMonitorName = const(char)* function(GLFWmonitor*);
+    alias da_glfwSetMonitorCallback = GLFWmonitorfun function(GLFWmonitorfun);
 
-    alias da_glfwGetVideoModes = const( GLFWvidmode )* function( GLFWmonitor*,int* );
-    alias da_glfwGetVideoMode = const( GLFWvidmode )* function( GLFWmonitor* );
+    alias da_glfwGetVideoModes = const(GLFWvidmode)* function(GLFWmonitor*,int*);
+    alias da_glfwGetVideoMode = const(GLFWvidmode)* function(GLFWmonitor*);
 
-    alias da_glfwSetGamma = void function( GLFWmonitor*,float );
-    alias da_glfwGetGammaRamp = const( GLFWgammaramp* ) function( GLFWmonitor* );
-    alias da_glfwSetGammaRamp = void function( GLFWmonitor*,const( GLFWgammaramp )* );
+    alias da_glfwSetGamma = void function(GLFWmonitor*,float);
+    alias da_glfwGetGammaRamp = const(GLFWgammaramp*) function(GLFWmonitor*);
+    alias da_glfwSetGammaRamp = void function(GLFWmonitor*,const(GLFWgammaramp)*);
 
     alias da_glfwDefaultWindowHints = void function();
-    alias da_glfwWindowHint = void function( int,int );
-    alias da_glfwCreateWindow = GLFWwindow* function( int,int,const( char )*,GLFWmonitor*,GLFWwindow* );
-    alias da_glfwDestroyWindow = void function( GLFWwindow* );
-    alias da_glfwWindowShouldClose = int function( GLFWwindow* );
-    alias da_glfwSetWindowShouldClose = void function( GLFWwindow*,int );
-    alias da_glfwSetWindowTitle = void function( GLFWwindow*,const( char )* );
-    alias da_glfwGetWindowPos = void function( GLFWwindow*,int*,int* );
-    alias da_glfwSetWindowPos = void function( GLFWwindow*,int,int );
-    alias da_glfwGetWindowSize = void function( GLFWwindow*,int*,int* );
-    alias da_glfwSetWindowSize = void function( GLFWwindow*,int,int );
-    alias da_glfwGetFramebufferSize = void function( GLFWwindow*,int*,int* );
-    alias da_glfwGetWindowFrameSize = void function( GLFWwindow*,int*,int*,int*,int* );
-    alias da_glfwIconifyWindow = void function( GLFWwindow* );
-    alias da_glfwRestoreWindow = void function( GLFWwindow* );
-    alias da_glfwShowWindow = void function( GLFWwindow* );
-    alias da_glfwHideWindow = void function( GLFWwindow* );
-    alias da_glfwGetWindowMonitor = GLFWmonitor* function( GLFWwindow* );
-    alias da_glfwGetWindowAttrib = int function( GLFWwindow*,int );
-    alias da_glfwSetWindowUserPointer = void function( GLFWwindow*,void* );
-    alias da_glfwGetWindowUserPointer = void* function( GLFWwindow* );
-    alias da_glfwSetWindowPosCallback = GLFWwindowposfun function( GLFWwindow*,GLFWwindowposfun );
-    alias da_glfwSetWindowSizeCallback = GLFWwindowsizefun function( GLFWwindow*,GLFWwindowsizefun );
-    alias da_glfwSetWindowCloseCallback = GLFWwindowclosefun function( GLFWwindow*,GLFWwindowclosefun );
-    alias da_glfwSetWindowRefreshCallback = GLFWwindowrefreshfun function( GLFWwindow*,GLFWwindowrefreshfun );
-    alias da_glfwSetWindowFocusCallback = GLFWwindowfocusfun function( GLFWwindow*,GLFWwindowfocusfun );
-    alias da_glfwSetWindowIconifyCallback = GLFWwindowiconifyfun function( GLFWwindow*,GLFWwindowiconifyfun );
-    alias da_glfwSetFramebufferSizeCallback = GLFWframebuffersizefun function( GLFWwindow*,GLFWframebuffersizefun );
+    alias da_glfwWindowHint = void function(int,int);
+    alias da_glfwCreateWindow = GLFWwindow* function(int,int,const(char)*,GLFWmonitor*,GLFWwindow*);
+    alias da_glfwDestroyWindow = void function(GLFWwindow*);
+    alias da_glfwWindowShouldClose = int function(GLFWwindow*);
+    alias da_glfwSetWindowShouldClose = void function(GLFWwindow*,int);
+    alias da_glfwSetWindowTitle = void function(GLFWwindow*,const(char)*);
+    alias da_glfwGetWindowPos = void function(GLFWwindow*,int*,int*);
+    alias da_glfwSetWindowPos = void function(GLFWwindow*,int,int);
+    alias da_glfwGetWindowSize = void function(GLFWwindow*,int*,int*);
+    alias da_glfwSetWindowSize = void function(GLFWwindow*,int,int);
+    alias da_glfwGetFramebufferSize = void function(GLFWwindow*,int*,int*);
+    alias da_glfwGetWindowFrameSize = void function(GLFWwindow*,int*,int*,int*,int*);
+    alias da_glfwIconifyWindow = void function(GLFWwindow*);
+    alias da_glfwRestoreWindow = void function(GLFWwindow*);
+    alias da_glfwShowWindow = void function(GLFWwindow*);
+    alias da_glfwHideWindow = void function(GLFWwindow*);
+    alias da_glfwGetWindowMonitor = GLFWmonitor* function(GLFWwindow*);
+    alias da_glfwGetWindowAttrib = int function(GLFWwindow*,int);
+    alias da_glfwSetWindowUserPointer = void function(GLFWwindow*,void*);
+    alias da_glfwGetWindowUserPointer = void* function(GLFWwindow*);
+    alias da_glfwSetWindowPosCallback = GLFWwindowposfun function(GLFWwindow*,GLFWwindowposfun);
+    alias da_glfwSetWindowSizeCallback = GLFWwindowsizefun function(GLFWwindow*,GLFWwindowsizefun);
+    alias da_glfwSetWindowCloseCallback = GLFWwindowclosefun function(GLFWwindow*,GLFWwindowclosefun);
+    alias da_glfwSetWindowRefreshCallback = GLFWwindowrefreshfun function(GLFWwindow*,GLFWwindowrefreshfun);
+    alias da_glfwSetWindowFocusCallback = GLFWwindowfocusfun function(GLFWwindow*,GLFWwindowfocusfun);
+    alias da_glfwSetWindowIconifyCallback = GLFWwindowiconifyfun function(GLFWwindow*,GLFWwindowiconifyfun);
+    alias da_glfwSetFramebufferSizeCallback = GLFWframebuffersizefun function(GLFWwindow*,GLFWframebuffersizefun);
 
     alias da_glfwPollEvents = void function();
     alias da_glfwWaitEvents = void function();
     alias da_glfwPostEmptyEvent = void function();
 
-    alias da_glfwGetInputMode = int function( GLFWwindow*,int );
-    alias da_glfwSetInputMode = void function( GLFWwindow*,int,int );
-    alias da_glfwGetKey = int function( GLFWwindow*,int );
-    alias da_glfwGetMouseButton = int function( GLFWwindow*,int );
-    alias da_glfwGetCursorPos = void function( GLFWwindow*,double*,double* );
-    alias da_glfwSetCursorPos = void function( GLFWwindow*,double,double );
-    alias da_glfwCreateCursor = GLFWcursor* function( const( GLFWimage )*,int,int );
-    alias da_glfwCreateStandardCursor = GLFWcursor* function( int );
-    alias da_glfwDestroyCursor = void function( GLFWcursor* );
-    alias da_glfwSetCursor = void function( GLFWwindow*,GLFWcursor* );
-    alias da_glfwSetKeyCallback = GLFWkeyfun function( GLFWwindow*,GLFWkeyfun );
-    alias da_glfwSetCharCallback = GLFWcharfun function( GLFWwindow*,GLFWcharfun );
-    alias da_glfwSetCharModsCallback = GLFWcharmodsfun function( GLFWwindow*,GLFWcharmodsfun );
-    alias da_glfwSetMouseButtonCallback = GLFWmousebuttonfun function( GLFWwindow*,GLFWmousebuttonfun );
-    alias da_glfwSetCursorPosCallback = GLFWcursorposfun function( GLFWwindow*,GLFWcursorposfun );
-    alias da_glfwSetCursorEnterCallback = GLFWcursorenterfun function( GLFWwindow*,GLFWcursorenterfun );
-    alias da_glfwSetScrollCallback = GLFWscrollfun function( GLFWwindow*,GLFWscrollfun );
-    alias da_glfwSetDropCallback = GLFWdropfun function( GLFWwindow*,GLFWdropfun );
+    alias da_glfwGetInputMode = int function(GLFWwindow*,int);
+    alias da_glfwSetInputMode = void function(GLFWwindow*,int,int);
+    alias da_glfwGetKey = int function(GLFWwindow*,int);
+    alias da_glfwGetMouseButton = int function(GLFWwindow*,int);
+    alias da_glfwGetCursorPos = void function(GLFWwindow*,double*,double*);
+    alias da_glfwSetCursorPos = void function(GLFWwindow*,double,double);
+    alias da_glfwCreateCursor = GLFWcursor* function(const(GLFWimage)*,int,int);
+    alias da_glfwCreateStandardCursor = GLFWcursor* function(int);
+    alias da_glfwDestroyCursor = void function(GLFWcursor*);
+    alias da_glfwSetCursor = void function(GLFWwindow*,GLFWcursor*);
+    alias da_glfwSetKeyCallback = GLFWkeyfun function(GLFWwindow*,GLFWkeyfun);
+    alias da_glfwSetCharCallback = GLFWcharfun function(GLFWwindow*,GLFWcharfun);
+    alias da_glfwSetCharModsCallback = GLFWcharmodsfun function(GLFWwindow*,GLFWcharmodsfun);
+    alias da_glfwSetMouseButtonCallback = GLFWmousebuttonfun function(GLFWwindow*,GLFWmousebuttonfun);
+    alias da_glfwSetCursorPosCallback = GLFWcursorposfun function(GLFWwindow*,GLFWcursorposfun);
+    alias da_glfwSetCursorEnterCallback = GLFWcursorenterfun function(GLFWwindow*,GLFWcursorenterfun);
+    alias da_glfwSetScrollCallback = GLFWscrollfun function(GLFWwindow*,GLFWscrollfun);
+    alias da_glfwSetDropCallback = GLFWdropfun function(GLFWwindow*,GLFWdropfun);
 
-    alias da_glfwJoystickPresent = int function( int );
-    alias da_glfwGetJoystickAxes = float* function( int,int* );
-    alias da_glfwGetJoystickButtons = ubyte* function( int,int* );
-    alias da_glfwGetJoystickName = const( char )* function( int );
+    alias da_glfwJoystickPresent = int function(int);
+    alias da_glfwGetJoystickAxes = float* function(int,int*);
+    alias da_glfwGetJoystickButtons = ubyte* function(int,int*);
+    alias da_glfwGetJoystickName = const(char)* function(int);
 
-    alias da_glfwSetClipboardString = void function( GLFWwindow*,const( char )* );
-    alias da_glfwGetClipboardString = const( char )* function( GLFWwindow* );
+    alias da_glfwSetClipboardString = void function(GLFWwindow*,const(char)*);
+    alias da_glfwGetClipboardString = const(char)* function(GLFWwindow*);
 
     alias da_glfwGetTime = double function();
-    alias da_glfwSetTime = void function( double );
+    alias da_glfwSetTime = void function(double);
 
-    alias da_glfwMakeContextCurrent = void function( GLFWwindow* );
+    alias da_glfwMakeContextCurrent = void function(GLFWwindow*);
     alias da_glfwGetCurrentContext = GLFWwindow* function();
-    alias da_glfwSwapBuffers = void function( GLFWwindow* );
-    alias da_glfwSwapInterval = void function( int );
-    alias da_glfwExtensionSupported = int function( const( char )* );
-    alias da_glfwGetProcAddress = GLFWglproc function( const( char )* );
+    alias da_glfwSwapBuffers = void function(GLFWwindow*);
+    alias da_glfwSwapInterval = void function(int);
+    alias da_glfwExtensionSupported = int function(const(char)*);
+    alias da_glfwGetProcAddress = GLFWglproc function(const(char)*);
 
-    version(darwin)
-    {
+    version(darwin) {
         alias da_glfwGetCocoaWindow = void* function(GLFWwindow* window);
         alias da_glfwGetNSGLContext = void* function(GLFWwindow* window);
     }
-	version(Windows)
-	{
+	else version(Windows) {
 		alias da_glfwGetWin32Window = void* function(GLFWwindow* window);
 		alias da_glfwGetWGLContext = void* function(GLFWwindow* window);
 	}
@@ -544,13 +542,11 @@ __gshared {
     da_glfwExtensionSupported glfwExtensionSupported;
     da_glfwGetProcAddress glfwGetProcAddress;
 
-    version(darwin)
-    {
+    version(darwin) {
         da_glfwGetCocoaWindow glfwGetCocoaWindow;
         da_glfwGetNSGLContext glfwGetNSGLContext;
     }
-	version(Windows)
-	{
+	else version(Windows) {
 		da_glfwGetWin32Window glfwGetWin32Window;
 		da_glfwGetWGLContext glfwGetWGLContext;
 	}
@@ -558,99 +554,97 @@ __gshared {
 
 class DerelictGLFW3Loader : SharedLibLoader {
     public this() {
-        super( libNames );
+        super(libNames);
     }
 
     protected override void loadSymbols() {
-        bindFunc( cast( void** )&glfwInit,"glfwInit" );
-        bindFunc( cast( void** )&glfwTerminate,"glfwTerminate" );
-        bindFunc( cast( void** )&glfwGetVersion,"glfwGetVersion" );
-        bindFunc( cast( void** )&glfwGetVersionString,"glfwGetVersionString" );
-        bindFunc( cast( void** )&glfwSetErrorCallback,"glfwSetErrorCallback" );
-        bindFunc( cast( void** )&glfwGetMonitors,"glfwGetMonitors" );
-        bindFunc( cast( void** )&glfwGetPrimaryMonitor,"glfwGetPrimaryMonitor" );
-        bindFunc( cast( void** )&glfwGetMonitorPos,"glfwGetMonitorPos" );
-        bindFunc( cast( void** )&glfwGetMonitorPhysicalSize,"glfwGetMonitorPhysicalSize" );
-        bindFunc( cast( void** )&glfwGetMonitorName,"glfwGetMonitorName" );
-        bindFunc( cast( void** )&glfwSetMonitorCallback,"glfwSetMonitorCallback" );
-        bindFunc( cast( void** )&glfwGetVideoModes,"glfwGetVideoModes" );
-        bindFunc( cast( void** )&glfwGetVideoMode,"glfwGetVideoMode" );
-        bindFunc( cast( void** )&glfwSetGamma,"glfwSetGamma" );
-        bindFunc( cast( void** )&glfwGetGammaRamp,"glfwGetGammaRamp" );
-        bindFunc( cast( void** )&glfwSetGammaRamp,"glfwSetGammaRamp" );
-        bindFunc( cast( void** )&glfwDefaultWindowHints,"glfwDefaultWindowHints" );
-        bindFunc( cast( void** )&glfwWindowHint,"glfwWindowHint" );
-        bindFunc( cast( void** )&glfwCreateWindow,"glfwCreateWindow" );
-        bindFunc( cast( void** )&glfwDestroyWindow,"glfwDestroyWindow" );
-        bindFunc( cast( void** )&glfwWindowShouldClose,"glfwWindowShouldClose" );
-        bindFunc( cast( void** )&glfwSetWindowShouldClose,"glfwSetWindowShouldClose" );
-        bindFunc( cast( void** )&glfwSetWindowTitle,"glfwSetWindowTitle" );
-        bindFunc( cast( void** )&glfwGetWindowPos,"glfwGetWindowPos" );
-        bindFunc( cast( void** )&glfwSetWindowPos,"glfwSetWindowPos" );
-        bindFunc( cast( void** )&glfwGetWindowSize,"glfwGetWindowSize" );
-        bindFunc( cast( void** )&glfwSetWindowSize,"glfwSetWindowSize" );
-        bindFunc( cast( void** )&glfwGetFramebufferSize,"glfwGetFramebufferSize" );
-        bindFunc( cast( void** )&glfwGetWindowFrameSize,"glfwGetWindowFrameSize" );
-        bindFunc( cast( void** )&glfwIconifyWindow,"glfwIconifyWindow" );
-        bindFunc( cast( void** )&glfwRestoreWindow,"glfwRestoreWindow" );
-        bindFunc( cast( void** )&glfwShowWindow,"glfwShowWindow" );
-        bindFunc( cast( void** )&glfwHideWindow,"glfwHideWindow" );
-        bindFunc( cast( void** )&glfwGetWindowMonitor,"glfwGetWindowMonitor" );
-        bindFunc( cast( void** )&glfwGetWindowAttrib,"glfwGetWindowAttrib" );
-        bindFunc( cast( void** )&glfwSetWindowUserPointer,"glfwSetWindowUserPointer" );
-        bindFunc( cast( void** )&glfwGetWindowUserPointer,"glfwGetWindowUserPointer" );
-        bindFunc( cast( void** )&glfwSetWindowPosCallback,"glfwSetWindowPosCallback" );
-        bindFunc( cast( void** )&glfwSetWindowSizeCallback,"glfwSetWindowSizeCallback" );
-        bindFunc( cast( void** )&glfwSetWindowCloseCallback,"glfwSetWindowCloseCallback" );
-        bindFunc( cast( void** )&glfwSetWindowRefreshCallback,"glfwSetWindowRefreshCallback" );
-        bindFunc( cast( void** )&glfwSetWindowFocusCallback,"glfwSetWindowFocusCallback" );
-        bindFunc( cast( void** )&glfwSetWindowIconifyCallback,"glfwSetWindowIconifyCallback" );
-        bindFunc( cast( void** )&glfwSetFramebufferSizeCallback,"glfwSetFramebufferSizeCallback" );
-        bindFunc( cast( void** )&glfwPollEvents,"glfwPollEvents" );
-        bindFunc( cast( void** )&glfwWaitEvents,"glfwWaitEvents" );
-        bindFunc( cast( void** )&glfwPostEmptyEvent,"glfwPostEmptyEvent" );
-        bindFunc( cast( void** )&glfwGetInputMode,"glfwGetInputMode" );
-        bindFunc( cast( void** )&glfwSetInputMode,"glfwSetInputMode" );
-        bindFunc( cast( void** )&glfwGetKey,"glfwGetKey" );
-        bindFunc( cast( void** )&glfwGetMouseButton,"glfwGetMouseButton" );
-        bindFunc( cast( void** )&glfwGetCursorPos,"glfwGetCursorPos" );
-        bindFunc( cast( void** )&glfwSetCursorPos,"glfwSetCursorPos" );
-        bindFunc( cast( void** )&glfwCreateCursor,"glfwCreateCursor" );
-        bindFunc( cast( void** )&glfwCreateStandardCursor,"glfwCreateStandardCursor" );
-        bindFunc( cast( void** )&glfwDestroyCursor,"glfwDestroyCursor" );
-        bindFunc( cast( void** )&glfwSetCursor,"glfwSetCursor" );
-        bindFunc( cast( void** )&glfwSetKeyCallback,"glfwSetKeyCallback" );
-        bindFunc( cast( void** )&glfwSetCharCallback,"glfwSetCharCallback" );
-        bindFunc( cast( void** )&glfwSetCharModsCallback,"glfwSetCharModsCallback" );
-        bindFunc( cast( void** )&glfwSetMouseButtonCallback,"glfwSetMouseButtonCallback" );
-        bindFunc( cast( void** )&glfwSetCursorPosCallback,"glfwSetCursorPosCallback" );
-        bindFunc( cast( void** )&glfwSetScrollCallback,"glfwSetScrollCallback" );
-        bindFunc( cast( void** )&glfwSetDropCallback,"glfwSetDropCallback" );
-        bindFunc( cast( void** )&glfwSetCursorEnterCallback,"glfwSetCursorEnterCallback" );
-        bindFunc( cast( void** )&glfwJoystickPresent,"glfwJoystickPresent" );
-        bindFunc( cast( void** )&glfwGetJoystickAxes,"glfwGetJoystickAxes" );
-        bindFunc( cast( void** )&glfwGetJoystickButtons,"glfwGetJoystickButtons" );
-        bindFunc( cast( void** )&glfwGetJoystickName,"glfwGetJoystickName" );
-        bindFunc( cast( void** )&glfwSetClipboardString,"glfwSetClipboardString" );
-        bindFunc( cast( void** )&glfwGetClipboardString,"glfwGetClipboardString" );
-        bindFunc( cast( void** )&glfwGetTime,"glfwGetTime" );
-        bindFunc( cast( void** )&glfwSetTime,"glfwSetTime" );
-        bindFunc( cast( void** )&glfwMakeContextCurrent,"glfwMakeContextCurrent" );
-        bindFunc( cast( void** )&glfwGetCurrentContext,"glfwGetCurrentContext" );
-        bindFunc( cast( void** )&glfwSwapBuffers,"glfwSwapBuffers" );
-        bindFunc( cast( void** )&glfwSwapInterval,"glfwSwapInterval" );
-        bindFunc( cast( void** )&glfwExtensionSupported,"glfwExtensionSupported" );
-        bindFunc( cast( void** )&glfwGetProcAddress,"glfwGetProcAddress" );
+        bindFunc(cast(void**)&glfwInit,"glfwInit");
+        bindFunc(cast(void**)&glfwTerminate,"glfwTerminate");
+        bindFunc(cast(void**)&glfwGetVersion,"glfwGetVersion");
+        bindFunc(cast(void**)&glfwGetVersionString,"glfwGetVersionString");
+        bindFunc(cast(void**)&glfwSetErrorCallback,"glfwSetErrorCallback");
+        bindFunc(cast(void**)&glfwGetMonitors,"glfwGetMonitors");
+        bindFunc(cast(void**)&glfwGetPrimaryMonitor,"glfwGetPrimaryMonitor");
+        bindFunc(cast(void**)&glfwGetMonitorPos,"glfwGetMonitorPos");
+        bindFunc(cast(void**)&glfwGetMonitorPhysicalSize,"glfwGetMonitorPhysicalSize");
+        bindFunc(cast(void**)&glfwGetMonitorName,"glfwGetMonitorName");
+        bindFunc(cast(void**)&glfwSetMonitorCallback,"glfwSetMonitorCallback");
+        bindFunc(cast(void**)&glfwGetVideoModes,"glfwGetVideoModes");
+        bindFunc(cast(void**)&glfwGetVideoMode,"glfwGetVideoMode");
+        bindFunc(cast(void**)&glfwSetGamma,"glfwSetGamma");
+        bindFunc(cast(void**)&glfwGetGammaRamp,"glfwGetGammaRamp");
+        bindFunc(cast(void**)&glfwSetGammaRamp,"glfwSetGammaRamp");
+        bindFunc(cast(void**)&glfwDefaultWindowHints,"glfwDefaultWindowHints");
+        bindFunc(cast(void**)&glfwWindowHint,"glfwWindowHint");
+        bindFunc(cast(void**)&glfwCreateWindow,"glfwCreateWindow");
+        bindFunc(cast(void**)&glfwDestroyWindow,"glfwDestroyWindow");
+        bindFunc(cast(void**)&glfwWindowShouldClose,"glfwWindowShouldClose");
+        bindFunc(cast(void**)&glfwSetWindowShouldClose,"glfwSetWindowShouldClose");
+        bindFunc(cast(void**)&glfwSetWindowTitle,"glfwSetWindowTitle");
+        bindFunc(cast(void**)&glfwGetWindowPos,"glfwGetWindowPos");
+        bindFunc(cast(void**)&glfwSetWindowPos,"glfwSetWindowPos");
+        bindFunc(cast(void**)&glfwGetWindowSize,"glfwGetWindowSize");
+        bindFunc(cast(void**)&glfwSetWindowSize,"glfwSetWindowSize");
+        bindFunc(cast(void**)&glfwGetFramebufferSize,"glfwGetFramebufferSize");
+        bindFunc(cast(void**)&glfwGetWindowFrameSize,"glfwGetWindowFrameSize");
+        bindFunc(cast(void**)&glfwIconifyWindow,"glfwIconifyWindow");
+        bindFunc(cast(void**)&glfwRestoreWindow,"glfwRestoreWindow");
+        bindFunc(cast(void**)&glfwShowWindow,"glfwShowWindow");
+        bindFunc(cast(void**)&glfwHideWindow,"glfwHideWindow");
+        bindFunc(cast(void**)&glfwGetWindowMonitor,"glfwGetWindowMonitor");
+        bindFunc(cast(void**)&glfwGetWindowAttrib,"glfwGetWindowAttrib");
+        bindFunc(cast(void**)&glfwSetWindowUserPointer,"glfwSetWindowUserPointer");
+        bindFunc(cast(void**)&glfwGetWindowUserPointer,"glfwGetWindowUserPointer");
+        bindFunc(cast(void**)&glfwSetWindowPosCallback,"glfwSetWindowPosCallback");
+        bindFunc(cast(void**)&glfwSetWindowSizeCallback,"glfwSetWindowSizeCallback");
+        bindFunc(cast(void**)&glfwSetWindowCloseCallback,"glfwSetWindowCloseCallback");
+        bindFunc(cast(void**)&glfwSetWindowRefreshCallback,"glfwSetWindowRefreshCallback");
+        bindFunc(cast(void**)&glfwSetWindowFocusCallback,"glfwSetWindowFocusCallback");
+        bindFunc(cast(void**)&glfwSetWindowIconifyCallback,"glfwSetWindowIconifyCallback");
+        bindFunc(cast(void**)&glfwSetFramebufferSizeCallback,"glfwSetFramebufferSizeCallback");
+        bindFunc(cast(void**)&glfwPollEvents,"glfwPollEvents");
+        bindFunc(cast(void**)&glfwWaitEvents,"glfwWaitEvents");
+        bindFunc(cast(void**)&glfwPostEmptyEvent,"glfwPostEmptyEvent");
+        bindFunc(cast(void**)&glfwGetInputMode,"glfwGetInputMode");
+        bindFunc(cast(void**)&glfwSetInputMode,"glfwSetInputMode");
+        bindFunc(cast(void**)&glfwGetKey,"glfwGetKey");
+        bindFunc(cast(void**)&glfwGetMouseButton,"glfwGetMouseButton");
+        bindFunc(cast(void**)&glfwGetCursorPos,"glfwGetCursorPos");
+        bindFunc(cast(void**)&glfwSetCursorPos,"glfwSetCursorPos");
+        bindFunc(cast(void**)&glfwCreateCursor,"glfwCreateCursor");
+        bindFunc(cast(void**)&glfwCreateStandardCursor,"glfwCreateStandardCursor");
+        bindFunc(cast(void**)&glfwDestroyCursor,"glfwDestroyCursor");
+        bindFunc(cast(void**)&glfwSetCursor,"glfwSetCursor");
+        bindFunc(cast(void**)&glfwSetKeyCallback,"glfwSetKeyCallback");
+        bindFunc(cast(void**)&glfwSetCharCallback,"glfwSetCharCallback");
+        bindFunc(cast(void**)&glfwSetCharModsCallback,"glfwSetCharModsCallback");
+        bindFunc(cast(void**)&glfwSetMouseButtonCallback,"glfwSetMouseButtonCallback");
+        bindFunc(cast(void**)&glfwSetCursorPosCallback,"glfwSetCursorPosCallback");
+        bindFunc(cast(void**)&glfwSetScrollCallback,"glfwSetScrollCallback");
+        bindFunc(cast(void**)&glfwSetDropCallback,"glfwSetDropCallback");
+        bindFunc(cast(void**)&glfwSetCursorEnterCallback,"glfwSetCursorEnterCallback");
+        bindFunc(cast(void**)&glfwJoystickPresent,"glfwJoystickPresent");
+        bindFunc(cast(void**)&glfwGetJoystickAxes,"glfwGetJoystickAxes");
+        bindFunc(cast(void**)&glfwGetJoystickButtons,"glfwGetJoystickButtons");
+        bindFunc(cast(void**)&glfwGetJoystickName,"glfwGetJoystickName");
+        bindFunc(cast(void**)&glfwSetClipboardString,"glfwSetClipboardString");
+        bindFunc(cast(void**)&glfwGetClipboardString,"glfwGetClipboardString");
+        bindFunc(cast(void**)&glfwGetTime,"glfwGetTime");
+        bindFunc(cast(void**)&glfwSetTime,"glfwSetTime");
+        bindFunc(cast(void**)&glfwMakeContextCurrent,"glfwMakeContextCurrent");
+        bindFunc(cast(void**)&glfwGetCurrentContext,"glfwGetCurrentContext");
+        bindFunc(cast(void**)&glfwSwapBuffers,"glfwSwapBuffers");
+        bindFunc(cast(void**)&glfwSwapInterval,"glfwSwapInterval");
+        bindFunc(cast(void**)&glfwExtensionSupported,"glfwExtensionSupported");
+        bindFunc(cast(void**)&glfwGetProcAddress,"glfwGetProcAddress");
 
-        version(darwin)
-        {
-            bindFunc( cast( void** )&glfwGetCocoaWindow,"glfwGetCocoaWindow" );
-            bindFunc( cast( void** )&glfwGetNSGLContext,"glfwGetNSGLContext" );
+        version(darwin) {
+            bindFunc(cast(void**)&glfwGetCocoaWindow,"glfwGetCocoaWindow");
+            bindFunc(cast(void**)&glfwGetNSGLContext,"glfwGetNSGLContext");
         }
-		version(Windows)
-		{
-			bindFunc( cast( void** )&glfwGetWin32Window,"glfwGetWin32Window" );
-			bindFunc( cast( void** )&glfwGetWGLContext,"glfwGetWGLContext" );
+		else version(Windows) {
+			bindFunc(cast(void**)&glfwGetWin32Window,"glfwGetWin32Window");
+			bindFunc(cast(void**)&glfwGetWGLContext,"glfwGetWGLContext");
 		}
     }
 }
