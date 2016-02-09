@@ -3,7 +3,7 @@ DerelictGLFW3
 
 A dynamic binding to version 3.1 of the [GLFW 3][1] library for the D Programming Language.
 
-Please see the [DerelictGLFW3 documentation][2] and the page [Using Derelict][3] for information on how to build DerelictSDL2 and load the SDL2 libraries at run time. In the meantime, here's some sample code.
+Please see the [DerelictGLFW3 documentation][2] and the page [Using Derelict][3] for information on how to build DerelictGLFW3 and load the GLFW3 library at run time. In the meantime, here's some sample code.
 
 ```D
 import derelict.glfw3.glfw3;
