@@ -5,6 +5,7 @@ license "Boost"
 authors "Mike Parker"
 targetType "library"
 targetPath "lib"
+targetName "DerelictGLFW3"
 
 configuration "derelict-glfw3-dynamic" {
     excludedSourceFiles "source/derelict/glfw3/statfun.d"
