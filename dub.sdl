@@ -1,0 +1,17 @@
+name "derelict-glfw3"
+description "A dynamic and static binding to the GLFW 3 library."
+homepage "https://github.com/DerelictOrg/DerelictGLFW3"
+license "Boost"
+authors "Mike Parker"
+targetType "library"
+targetPath "lib"
+
+configuration "derelict-glfw3-dynamic" {
+    excludedSourceFiles "source/derelict/glfw3/statfun.d"
+    dependency "derelict-util" version="~>2.0.4"
+}
+
+configuration "derelict-glfw3-static" {
+    excludedSourceFiles "source/derelict/glfw3/dynload"
+    versions "DerelictGLFW3Static"
+}
