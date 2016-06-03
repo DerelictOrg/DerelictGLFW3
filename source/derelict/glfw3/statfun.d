@@ -30,6 +30,7 @@ module derelict.glfw3.statfun;
 version(DerelictGLFW3Static):
 
 public import derelict.glfw3.types;
+import derelict.util.system;
 
 extern(System) @nogc nothrow {
     int glfwInit();
@@ -55,17 +56,23 @@ extern(System) @nogc nothrow {
     int glfwWindowShouldClose(GLFWwindow*);
     void glfwSetWindowShouldClose(GLFWwindow*,int);
     void glfwSetWindowTitle(GLFWwindow*,const(char)*);
+    void glfwSetWindowIcon(GLFWwindow*,int,const(GLFWimage)*);
     void glfwGetWindowPos(GLFWwindow*,int*,int*);
     void glfwSetWindowPos(GLFWwindow*,int,int);
     void glfwGetWindowSize(GLFWwindow*,int*,int*);
+    void glfwSetWindowSizeLimits(GLFWwindow*,int,int,int,int);
+    void glfwSetWindowAspectRatio(GLFWwindow*,int,int);
     void glfwSetWindowSize(GLFWwindow*,int,int);
     void glfwGetFramebufferSize(GLFWwindow*,int*,int*);
     void glfwGetWindowFrameSize(GLFWwindow*,int*,int*,int*,int*);
     void glfwIconifyWindow(GLFWwindow*);
     void glfwRestoreWindow(GLFWwindow*);
+    void glfwMaximizeWindow(GLFWwindow*);
     void glfwShowWindow(GLFWwindow*);
     void glfwHideWindow(GLFWwindow*);
+    void glfwFocusWindow(GLFWwindow*);
     GLFWmonitor* glfwGetWindowMonitor(GLFWwindow*);
+    void glfwSetWindowMonitor(GLFWwindow*,GLFWmonitor*,int,int,int,int,int);
     int glfwGetWindowAttrib(GLFWwindow*,int);
     void glfwSetWindowUserPointer(GLFWwindow*,void*);
     void* glfwGetWindowUserPointer(GLFWwindow*);
@@ -78,9 +85,11 @@ extern(System) @nogc nothrow {
     GLFWframebuffersizefun glfwSetFramebufferSizeCallback(GLFWwindow*,GLFWframebuffersizefun);
     void glfwPollEvents();
     void glfwWaitEvents();
+    void glfwWaitEventsTimeout(double);
     void glfwPostEmptyEvent();
     int glfwGetInputMode(GLFWwindow*,int);
     void glfwSetInputMode(GLFWwindow*,int,int);
+    const(char)* glfwGetKeyName(int,int);
     int glfwGetKey(GLFWwindow*,int);
     int glfwGetMouseButton(GLFWwindow*,int);
     void glfwGetCursorPos(GLFWwindow*,double*,double*);
@@ -101,18 +110,35 @@ extern(System) @nogc nothrow {
     float* glfwGetJoystickAxes(int,int*);
     ubyte* glfwGetJoystickButtons(int,int*);
     const(char)* glfwGetJoystickName(int);
+    GLFWjoystickfun glfwSetJoystickCallback(GLFWjoystickfun);
     void glfwSetClipboardString(GLFWwindow*,const(char)*);
     const(char)* glfwGetClipboardString(GLFWwindow*);
     double glfwGetTime();
     void glfwSetTime(double);
+    long glfwGetTimerValue();
+    long glfwGetTimerFrequency();
     void glfwMakeContextCurrent(GLFWwindow*);
     GLFWwindow* glfwGetCurrentContext();
     void glfwSwapBuffers(GLFWwindow*);
     void glfwSwapInterval(int);
     int glfwExtensionSupported(const(char)*);
     GLFWglproc glfwGetProcAddress(const(char)*);
-    void* glfwGetCocoaWindow(GLFWwindow* window);
-    void* glfwGetNSGLContext(GLFWwindow* window);
-    void* glfwGetWin32Window(GLFWwindow* window);
-    void* glfwGetWGLContext(GLFWwindow* window);
+    int glfwVulkanSupported();
+    /*
+    TODO Not sure how to handle this yet.
+
+    const(char)** glfwGetRequiredInstanceExtensions(uint*);
+    GLFWvkproc glfwGetInstanceProcAddress(VkInstance,const(char)*);
+    int glfwGetPhysicalDevicePresentationSupport(Vkinstance,VKPhysicalDevice,uint);
+    VkResult glfwCreateWindowSurface(VkInstance,GLFWwindow*,const(VkAllocationCallbacks),VkSurfaceKHR*);
+    */
+
+    version(Derelict_OS_MAC) {
+        void* glfwGetCocoaWindow(GLFWwindow* window);
+        void* glfwGetNSGLContext(GLFWwindow* window);
+    }
+    else version(Derelict_OS_Windows) {
+        void* glfwGetWin32Window(GLFWwindow* window);
+        void* glfwGetWGLContext(GLFWwindow* window);
+    }
 }

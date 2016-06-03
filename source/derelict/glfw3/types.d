@@ -29,7 +29,7 @@ module derelict.glfw3.types;
 
 enum {
     GLFW_VERSION_MAJOR = 3,
-    GLFW_VERSION_MINOR = 1,
+    GLFW_VERSION_MINOR = 2,
     GLFW_VERSION_REVISION = 0
 }
 
@@ -233,6 +233,7 @@ enum {
     GLFW_DECORATED = 0x00020005,
     GLFW_AUTO_ICONIFY = 0x00020006,
     GLFW_FLOATING = 0x00020007,
+    GLFW_MAXIMIZED = 0x00020008,
 
     GLFW_RED_BITS = 0x00021001,
     GLFW_GREEN_BITS = 0x00021002,
@@ -284,6 +285,9 @@ enum {
     GLFW_RELEASE_BEHAVIOR_FLUSH = 0x00035001,
     GLFW_RELEASE_BEHAVIOR_NONE = 0x00035002,
 
+    GLFW_NATIVE_CONTEXT_API = 0x00036001,
+    GLFW_EGL_CONTEXT_API = 0x00036002,
+
     GLFW_ARROW_CURSOR = 0x00036001,
     GLFW_IBEAM_CURSOR = 0x00036002,
     GLFW_CROSSHAIR_CURSOR = 0x00036003,
@@ -297,7 +301,10 @@ enum {
     GLFW_DONT_CARE = -1,
 }
 
-extern(C) @nogc nothrow alias void function() GLFWglproc;
+extern(C) @nogc nothrow {
+    alias void function() GLFWglproc;
+    alias void function() GLFWvkproc;
+}
 
 struct GLFWmonitor;
 struct GLFWwindow;
@@ -321,6 +328,7 @@ extern(C) nothrow {
     alias GLFWcharmodsfun = void function(GLFWwindow*,uint,int);
     alias GLFWdropfun = void function(GLFWwindow*,int,const(char*)*);
     alias GLFWmonitorfun = void function(GLFWmonitor*,int);
+    alias GLFWjoystickfun = void function(int,int);
 }
 
 struct GLFWvidmode {

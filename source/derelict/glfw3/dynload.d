@@ -76,17 +76,23 @@ extern(C) @nogc nothrow {
     alias da_glfwWindowShouldClose = int function(GLFWwindow*);
     alias da_glfwSetWindowShouldClose = void function(GLFWwindow*,int);
     alias da_glfwSetWindowTitle = void function(GLFWwindow*,const(char)*);
+    alias da_glfwSetWindowIcon = void function(GLFWwindow*,int,const(GLFWimage)*);
     alias da_glfwGetWindowPos = void function(GLFWwindow*,int*,int*);
     alias da_glfwSetWindowPos = void function(GLFWwindow*,int,int);
     alias da_glfwGetWindowSize = void function(GLFWwindow*,int*,int*);
+    alias da_glfwSetWindowSizeLimits = void function(GLFWwindow*,int,int,int,int);
+    alias da_glfwSetWindowAspectRatio = void function(GLFWwindow*,int,int);
     alias da_glfwSetWindowSize = void function(GLFWwindow*,int,int);
     alias da_glfwGetFramebufferSize = void function(GLFWwindow*,int*,int*);
     alias da_glfwGetWindowFrameSize = void function(GLFWwindow*,int*,int*,int*,int*);
     alias da_glfwIconifyWindow = void function(GLFWwindow*);
     alias da_glfwRestoreWindow = void function(GLFWwindow*);
+    alias da_glfwMaximizeWindow = void function(GLFWwindow*);
     alias da_glfwShowWindow = void function(GLFWwindow*);
     alias da_glfwHideWindow = void function(GLFWwindow*);
+    alias da_glfwFocusWindow = void function(GLFWwindow*);
     alias da_glfwGetWindowMonitor = GLFWmonitor* function(GLFWwindow*);
+    alias da_glfwSetWindowMonitor = void function(GLFWwindow*,GLFWmonitor*,int,int,int,int,int);
     alias da_glfwGetWindowAttrib = int function(GLFWwindow*,int);
     alias da_glfwSetWindowUserPointer = void function(GLFWwindow*,void*);
     alias da_glfwGetWindowUserPointer = void* function(GLFWwindow*);
@@ -100,10 +106,12 @@ extern(C) @nogc nothrow {
 
     alias da_glfwPollEvents = void function();
     alias da_glfwWaitEvents = void function();
+    alias da_glfwWaitEventsTimeout = void function(double);
     alias da_glfwPostEmptyEvent = void function();
 
     alias da_glfwGetInputMode = int function(GLFWwindow*,int);
     alias da_glfwSetInputMode = void function(GLFWwindow*,int,int);
+    alias da_glfwGetKeyName = const(char)* function(int,int);
     alias da_glfwGetKey = int function(GLFWwindow*,int);
     alias da_glfwGetMouseButton = int function(GLFWwindow*,int);
     alias da_glfwGetCursorPos = void function(GLFWwindow*,double*,double*);
@@ -125,12 +133,15 @@ extern(C) @nogc nothrow {
     alias da_glfwGetJoystickAxes = float* function(int,int*);
     alias da_glfwGetJoystickButtons = ubyte* function(int,int*);
     alias da_glfwGetJoystickName = const(char)* function(int);
+    alias da_glfwSetJoystickCallback = GLFWjoystickfun function(GLFWjoystickfun);
 
     alias da_glfwSetClipboardString = void function(GLFWwindow*,const(char)*);
     alias da_glfwGetClipboardString = const(char)* function(GLFWwindow*);
 
     alias da_glfwGetTime = double function();
     alias da_glfwSetTime = void function(double);
+    alias da_glfwGetTimerValue = long function();
+    alias da_glfwGetTimerFrequency = long function();
 
     alias da_glfwMakeContextCurrent = void function(GLFWwindow*);
     alias da_glfwGetCurrentContext = GLFWwindow* function();
@@ -138,6 +149,7 @@ extern(C) @nogc nothrow {
     alias da_glfwSwapInterval = void function(int);
     alias da_glfwExtensionSupported = int function(const(char)*);
     alias da_glfwGetProcAddress = GLFWglproc function(const(char)*);
+    alias da_glfwVulkanSupported = int function();
 
     version(darwin) {
         alias da_glfwGetCocoaWindow = void* function(GLFWwindow* window);
@@ -173,17 +185,23 @@ __gshared {
     da_glfwWindowShouldClose glfwWindowShouldClose;
     da_glfwSetWindowShouldClose glfwSetWindowShouldClose;
     da_glfwSetWindowTitle glfwSetWindowTitle;
+    da_glfwSetWindowIcon glfwSetWindowIcon;
     da_glfwGetWindowPos glfwGetWindowPos;
     da_glfwSetWindowPos glfwSetWindowPos;
     da_glfwGetWindowSize glfwGetWindowSize;
+    da_glfwSetWindowSizeLimits glfwSetWindowSizeLimits;
+    da_glfwSetWindowAspectRatio glfwSetWindowAspectRatio;
     da_glfwSetWindowSize glfwSetWindowSize;
     da_glfwGetFramebufferSize glfwGetFramebufferSize;
     da_glfwGetWindowFrameSize glfwGetWindowFrameSize;
     da_glfwIconifyWindow glfwIconifyWindow;
     da_glfwRestoreWindow glfwRestoreWindow;
+    da_glfwMaximizeWindow glfwMaximizeWindow;
     da_glfwShowWindow glfwShowWindow;
     da_glfwHideWindow glfwHideWindow;
+    da_glfwFocusWindow glfwFocusWindow;
     da_glfwGetWindowMonitor glfwGetWindowMonitor;
+    da_glfwSetWindowMonitor glfwSetWindowMonitor;
     da_glfwGetWindowAttrib glfwGetWindowAttrib;
     da_glfwSetWindowUserPointer glfwSetWindowUserPointer;
     da_glfwGetWindowUserPointer glfwGetWindowUserPointer;
@@ -196,9 +214,11 @@ __gshared {
     da_glfwSetFramebufferSizeCallback glfwSetFramebufferSizeCallback;
     da_glfwPollEvents glfwPollEvents;
     da_glfwWaitEvents glfwWaitEvents;
+    da_glfwWaitEventsTimeout glfwWaitEventsTimeout;
     da_glfwPostEmptyEvent glfwPostEmptyEvent;
     da_glfwGetInputMode glfwGetInputMode;
     da_glfwSetInputMode glfwSetInputMode;
+    da_glfwGetKeyName glfwGetKeyName;
     da_glfwGetKey glfwGetKey;
     da_glfwGetMouseButton glfwGetMouseButton;
     da_glfwGetCursorPos glfwGetCursorPos;
@@ -219,16 +239,20 @@ __gshared {
     da_glfwGetJoystickAxes glfwGetJoystickAxes;
     da_glfwGetJoystickButtons glfwGetJoystickButtons;
     da_glfwGetJoystickName glfwGetJoystickName;
+    da_glfwSetJoystickCallback glfwSetJoystickCallback;
     da_glfwSetClipboardString glfwSetClipboardString;
     da_glfwGetClipboardString glfwGetClipboardString;
     da_glfwGetTime glfwGetTime;
     da_glfwSetTime glfwSetTime;
+    da_glfwGetTimerValue glfwGetTimerValue;
+    da_glfwGetTimerFrequency glfwGetTimerFrequency;
     da_glfwMakeContextCurrent glfwMakeContextCurrent;
     da_glfwGetCurrentContext glfwGetCurrentContext;
     da_glfwSwapBuffers glfwSwapBuffers;
     da_glfwSwapInterval glfwSwapInterval;
     da_glfwExtensionSupported glfwExtensionSupported;
     da_glfwGetProcAddress glfwGetProcAddress;
+    da_glfwVulkanSupported glfwVulkanSupported;
 
     version(darwin) {
         da_glfwGetCocoaWindow glfwGetCocoaWindow;
@@ -269,17 +293,23 @@ class DerelictGLFW3Loader : SharedLibLoader {
         bindFunc(cast(void**)&glfwWindowShouldClose,"glfwWindowShouldClose");
         bindFunc(cast(void**)&glfwSetWindowShouldClose,"glfwSetWindowShouldClose");
         bindFunc(cast(void**)&glfwSetWindowTitle,"glfwSetWindowTitle");
+        bindFunc(cast(void**)&glfwSetWindowIcon, "glfwSetWindowIcon");
         bindFunc(cast(void**)&glfwGetWindowPos,"glfwGetWindowPos");
         bindFunc(cast(void**)&glfwSetWindowPos,"glfwSetWindowPos");
+        bindFunc(cast(void**)&glfwSetWindowSizeLimits, "glfwSetWindowSizeLimits");
+        bindFunc(cast(void**)&glfwSetWindowAspectRatio, "glfwSetWindowAspectRatio");
         bindFunc(cast(void**)&glfwGetWindowSize,"glfwGetWindowSize");
         bindFunc(cast(void**)&glfwSetWindowSize,"glfwSetWindowSize");
         bindFunc(cast(void**)&glfwGetFramebufferSize,"glfwGetFramebufferSize");
         bindFunc(cast(void**)&glfwGetWindowFrameSize,"glfwGetWindowFrameSize");
         bindFunc(cast(void**)&glfwIconifyWindow,"glfwIconifyWindow");
         bindFunc(cast(void**)&glfwRestoreWindow,"glfwRestoreWindow");
+        bindFunc(cast(void**)&glfwMaximizeWindow, "glfwMaximizeWindow");
         bindFunc(cast(void**)&glfwShowWindow,"glfwShowWindow");
         bindFunc(cast(void**)&glfwHideWindow,"glfwHideWindow");
+        bindFunc(cast(void**)&glfwFocusWindow, "glfwFocusWindow");
         bindFunc(cast(void**)&glfwGetWindowMonitor,"glfwGetWindowMonitor");
+        bindFunc(cast(void**)&glfwSetWindowMonitor, "glfwSetWindowMonitor");
         bindFunc(cast(void**)&glfwGetWindowAttrib,"glfwGetWindowAttrib");
         bindFunc(cast(void**)&glfwSetWindowUserPointer,"glfwSetWindowUserPointer");
         bindFunc(cast(void**)&glfwGetWindowUserPointer,"glfwGetWindowUserPointer");
@@ -292,9 +322,11 @@ class DerelictGLFW3Loader : SharedLibLoader {
         bindFunc(cast(void**)&glfwSetFramebufferSizeCallback,"glfwSetFramebufferSizeCallback");
         bindFunc(cast(void**)&glfwPollEvents,"glfwPollEvents");
         bindFunc(cast(void**)&glfwWaitEvents,"glfwWaitEvents");
+        bindFunc(cast(void**)&glfwWaitEventsTimeout, "glfwWaitEventsTimeout");
         bindFunc(cast(void**)&glfwPostEmptyEvent,"glfwPostEmptyEvent");
         bindFunc(cast(void**)&glfwGetInputMode,"glfwGetInputMode");
         bindFunc(cast(void**)&glfwSetInputMode,"glfwSetInputMode");
+        bindFunc(cast(void**)&glfwGetKeyName, "glfwGetKeyName");
         bindFunc(cast(void**)&glfwGetKey,"glfwGetKey");
         bindFunc(cast(void**)&glfwGetMouseButton,"glfwGetMouseButton");
         bindFunc(cast(void**)&glfwGetCursorPos,"glfwGetCursorPos");
@@ -315,22 +347,26 @@ class DerelictGLFW3Loader : SharedLibLoader {
         bindFunc(cast(void**)&glfwGetJoystickAxes,"glfwGetJoystickAxes");
         bindFunc(cast(void**)&glfwGetJoystickButtons,"glfwGetJoystickButtons");
         bindFunc(cast(void**)&glfwGetJoystickName,"glfwGetJoystickName");
+        bindFunc(cast(void**)&glfwSetJoystickCallback, "glfwSetJoystickCallback");
         bindFunc(cast(void**)&glfwSetClipboardString,"glfwSetClipboardString");
         bindFunc(cast(void**)&glfwGetClipboardString,"glfwGetClipboardString");
         bindFunc(cast(void**)&glfwGetTime,"glfwGetTime");
         bindFunc(cast(void**)&glfwSetTime,"glfwSetTime");
+        bindFunc(cast(void**)&glfwGetTimerValue, "glfwGetTimerValue");
+        bindFunc(cast(void**)&glfwGetTimerFrequency, "glfwGetTimerFrequency");
         bindFunc(cast(void**)&glfwMakeContextCurrent,"glfwMakeContextCurrent");
         bindFunc(cast(void**)&glfwGetCurrentContext,"glfwGetCurrentContext");
         bindFunc(cast(void**)&glfwSwapBuffers,"glfwSwapBuffers");
         bindFunc(cast(void**)&glfwSwapInterval,"glfwSwapInterval");
         bindFunc(cast(void**)&glfwExtensionSupported,"glfwExtensionSupported");
         bindFunc(cast(void**)&glfwGetProcAddress,"glfwGetProcAddress");
+        bindFunc(cast(void**)&glfwVulkanSupported, "glfwVulkanSupported");
 
-        version(darwin) {
+        version(Derelict_OS_Mac) {
             bindFunc(cast(void**)&glfwGetCocoaWindow,"glfwGetCocoaWindow");
             bindFunc(cast(void**)&glfwGetNSGLContext,"glfwGetNSGLContext");
         }
-        else version(Windows) {
+        else version(Derelict_OS_Windows) {
             bindFunc(cast(void**)&glfwGetWin32Window,"glfwGetWin32Window");
             bindFunc(cast(void**)&glfwGetWGLContext,"glfwGetWGLContext");
         }
