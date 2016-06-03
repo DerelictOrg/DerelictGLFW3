@@ -30,7 +30,6 @@ module derelict.glfw3.statfun;
 version(DerelictGLFW3Static):
 
 public import derelict.glfw3.types;
-import derelict.util.system;
 
 extern(System) @nogc nothrow {
     int glfwInit();
@@ -133,11 +132,11 @@ extern(System) @nogc nothrow {
     VkResult glfwCreateWindowSurface(VkInstance,GLFWwindow*,const(VkAllocationCallbacks),VkSurfaceKHR*);
     */
 
-    version(Derelict_OS_MAC) {
+    version(OSX) {
         void* glfwGetCocoaWindow(GLFWwindow* window);
         void* glfwGetNSGLContext(GLFWwindow* window);
     }
-    else version(Derelict_OS_Windows) {
+    else version(Windows) {
         void* glfwGetWin32Window(GLFWwindow* window);
         void* glfwGetWGLContext(GLFWwindow* window);
     }
