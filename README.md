@@ -1,7 +1,7 @@
 DerelictGLFW3
 =============
 
-A dynamic and static binding to version 3.1 of the [GLFW 3][1] library for the D Programming Language.
+A dynamic and static binding to version 3.2 of the [GLFW 3][1] library for the D Programming Language.
 
 The dynamic binding is the default configuration and allows you to load the GLFW3 shared library manually at runtime. Please see the [DerelictGLFW3 documentation][2] and the page [Using Derelict][3] for information on how to build DerelictGLFW3 and load the GLFW3 library at run time. Here's some sample code.
 
