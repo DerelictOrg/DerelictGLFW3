@@ -150,15 +150,6 @@ extern(C) @nogc nothrow {
     alias da_glfwExtensionSupported = int function(const(char)*);
     alias da_glfwGetProcAddress = GLFWglproc function(const(char)*);
     alias da_glfwVulkanSupported = int function();
-
-    version(darwin) {
-        alias da_glfwGetCocoaWindow = void* function(GLFWwindow* window);
-        alias da_glfwGetNSGLContext = void* function(GLFWwindow* window);
-    }
-    else version(Windows) {
-        alias da_glfwGetWin32Window = void* function(GLFWwindow* window);
-        alias da_glfwGetWGLContext = void* function(GLFWwindow* window);
-    }
 }
 
 __gshared {
@@ -253,20 +244,16 @@ __gshared {
     da_glfwExtensionSupported glfwExtensionSupported;
     da_glfwGetProcAddress glfwGetProcAddress;
     da_glfwVulkanSupported glfwVulkanSupported;
-
-    version(darwin) {
-        da_glfwGetCocoaWindow glfwGetCocoaWindow;
-        da_glfwGetNSGLContext glfwGetNSGLContext;
-    }
-    else version(Windows) {
-        da_glfwGetWin32Window glfwGetWin32Window;
-        da_glfwGetWGLContext glfwGetWGLContext;
-    }
 }
 
 class DerelictGLFW3Loader : SharedLibLoader {
     public this() {
         super(libNames);
+    }
+
+    public void bindMixedFunc(void** ptr, string name)
+    {
+        return bindFunc(ptr, name);
     }
 
     protected override void loadSymbols() {
@@ -361,15 +348,6 @@ class DerelictGLFW3Loader : SharedLibLoader {
         bindFunc(cast(void**)&glfwExtensionSupported,"glfwExtensionSupported");
         bindFunc(cast(void**)&glfwGetProcAddress,"glfwGetProcAddress");
         bindFunc(cast(void**)&glfwVulkanSupported, "glfwVulkanSupported");
-
-        version(Derelict_OS_Mac) {
-            bindFunc(cast(void**)&glfwGetCocoaWindow,"glfwGetCocoaWindow");
-            bindFunc(cast(void**)&glfwGetNSGLContext,"glfwGetNSGLContext");
-        }
-        else version(Derelict_OS_Windows) {
-            bindFunc(cast(void**)&glfwGetWin32Window,"glfwGetWin32Window");
-            bindFunc(cast(void**)&glfwGetWGLContext,"glfwGetWGLContext");
-        }
     }
 }
 
@@ -378,3 +356,191 @@ __gshared DerelictGLFW3Loader DerelictGLFW3;
 shared static this() {
     DerelictGLFW3 = new DerelictGLFW3Loader();
 }
+
+// Mixins to allow loading Vulkan & OS native functions using the types
+// declared in whatever Vulkan or OS binding an app is using.
+mixin template DerelictGLFW3_VulkanBind() {
+    extern(C) @nogc nothrow {
+        alias da_glfwGetRequiredInstanceExtensions = const(char)** function(uint*);
+        alias da_glfwGetInstanceProcAddress = GLFWvkproc function(Vkinstance,const(char)*);
+        alias da_glfwGetPhysicalDevicePresentationSupport = int function(VkInstance,VkPhysicalDevice,uint);
+        alias da_glfwCreateWindowSurface = VkResult function(VkInstance,GLFWwindow*,const(VkAllocationCallbacks),VkSurfaceKHR*);
+    }
+
+    __gshared {
+        da_glfwGetRequiredInstanceExtensions glfwGetRequiredInstanceExtensions;
+        da_glfwGetInstanceProcAddress glfwGetInstanceProcAddress;
+        da_glfwGetPhysicalDevicePresentationSupport glfwGetPhysicalDevicePresentationSupport;
+        da_glfwCreateWindowSurface glfwCreateWindowSurface;
+    }
+
+    void DerelictGLFW3_loadVulkan() {
+        assert(DerelictGLFW3.isLoaded);
+
+        with(DerelictGLFW3) {
+            bindMixedFunc(cast(void**)&glfwGetRequiredInstanceExtensions, "glfwGetRequiredInstanceExtensions");
+            bindMixedFunc(cast(void**)&glfwGetInstanceProcAddress, "glfwGetInstanceProcAddress");
+            bindMixedFunc(cast(void**)&glfwGetPhysicalDevicePresentationSupport, "glfwGetPhysicalDevicePresentationSupport");
+            bindMixedFunc(cast(void**)&glfwCreateWindowSurface, "glfwCreateWindowSurface");
+        }
+    }
+}
+
+mixin template DerelictGLFW3_MirBind() {
+    extern(C) @nogc nothrow {
+        alias da_glfwGetEGLDisplay = EGLDisplay function();
+        alias da_glfwGetEGLContext = EGLContext function(GLFWwindow*);
+        alias da_glfwGetEGLSurface = EGLSurface function(GLFWwindow*);
+    }
+
+    __gshared {
+        da_glfwGetEGLDisplay glfwGetEGLDisplay;
+        da_glfwGetEGLContext glfwGetEGLContext;
+        da_glfwGetEGLSurface glfwGetEGLSurface;
+    }
+
+    void DerelictGLFW3_loadX11() {
+        assert(DerelictGLFW3.isLoaded);
+
+        with(DerelictGLFW3) {
+            bindMixedFunc(cast(void**)&glfwGetEGLDisplay, "glfwGetEGLDisplay");
+            bindMixedFunc(cast(void**)&glfwGetEGLContext, "glfwGetEGLContext");
+            bindMixedFunc(cast(void**)&glfwGetEGLSurface,"glfwGetEGLSurface");
+        }
+    }
+}
+
+static if(Derelict_OS_Mac) {
+    mixin template DerelictGLFW3_MacBind() {
+        extern(C) @nogc nothrow {
+            alias da_glfwGetCocoaMonitor = CGDirectDisplayID function(GLFWmonitor*);
+            alias da_glfwGetCocoaWindow = id function(GLFWwindow* window);
+            alias da_glfwGetNSGLContext = id function(GLFWwindow* window);
+        }
+
+        void DerelictGLFW3_loadMac() {
+            assert(DerelictGLFW3.isLoaded);
+
+            with(DerelictGLFW3) {
+                bindMixedFunc(cast(void**)&glfwGetCocoaMonitor, "glfwGetCocoaMonitor");
+                bindMixedFunc(cast(void**)&glfwGetCocoaWindow,"glfwGetCocoaWindow");
+                bindMixedFunc(cast(void**)&glfwGetNSGLContext,"glfwGetNSGLContext");
+            }
+        }
+    }
+    alias DerelictGLFW3_NativeBind = DerelictGLFW3_MacBind;
+}
+else static if(Derelict_OS_Windows) {
+    mixin template DerelictGLFW3_WindowsBind() {
+        extern(C) @nogc nothrow {
+            alias da_glfwGetWin32Adapter = const(char)* function(GLFWmonitor*);
+            alias da_glfwGetWin32Monitor = const(char)* function(GLFWmonitor*);
+            alias da_glfwGetWin32Window = HWND function(GLFWwindow* window);
+            alias da_glfwGetWGLContext = HGLRC function(GLFWwindow* window);
+        }
+
+        __gshared {
+            da_glfwGetWin32Adapter glfwGetWin32Adapter;
+            da_glfwGetWin32Monitor glfwGetWin32Monitor;
+            da_glfwGetWin32Window glfwGetWin32Window;
+            da_glfwGetWGLContext glfwGetWGLContext;
+        }
+
+        void DerelictGLFW3_loadWindows() {
+            assert(DerelictGLFW3.isLoaded);
+
+            with(DerelictGLFW3) {
+                bindMixedFunc(cast(void**)&glfwGetWin32Adapter, "glfwGetWin32Adapter");
+                bindMixedFunc(cast(void**)&glfwGetWin32Monitor, "glfwGetWin32Monitor");
+                bindMixedFunc(cast(void**)&glfwGetWin32Window,"glfwGetWin32Window");
+                bindMixedFunc(cast(void**)&glfwGetWGLContext,"glfwGetWGLContext");
+            }
+        }
+    }
+    alias DerelictGLFW3_NativeBind = DerelictGLFW3_WindowsBind;
+}
+else static if(Derelict_OS_Posix) {
+    mixin template DerelictGLFW3_X11Bind() {
+        extern(C) @nogc nothrow {
+            alias da_glfwGetX11Display = Display* function();
+            alias da_glfwGetX11Adapter = RRCrtc function(GLFWmonitor*);
+            alias da_glfwGetX11Monitor = RROutput function(GLFWmonitor*);
+            alias da_glfwGetX11Window = Window function(GLFWwindow*);
+            alias da_glfwGetGLXContext = GLXContext function(GLFWwindow*);
+            alias da_glfwGetGLXWindow = GLXWindow function(GLFWwindow*);
+        }
+
+        __gshared {
+            da_glfwGetX11Display glfwGetX11Display;
+            da_glfwGetX11Adapter glfwGetX11Adapter;
+            da_glfwGetX11Monitor glfwGetX11Monitor;
+            da_glfwGetX11Window glfwGetX11Window;
+            da_glfwGetGLXContext glfwGetGLXContext;
+            da_glfwGetGLXWindow glfwGetGLXWindow;
+        }
+
+        void DerelictGLFW3_loadX11() {
+            assert(DerelictGLFW3.isLoaded);
+
+            with(DerelictGLFW3) {
+                bindMixedFunc(cast(void**)&glfwGetX11Display, "glfwGetX11Display");
+                bindMixedFunc(cast(void**)&glfwGetX11Adapter, "glfwGetX11Adapter");
+                bindMixedFunc(cast(void**)&glfwGetX11Monitor,"glfwGetX11Monitor");
+                bindMixedFunc(cast(void**)&glfwGetX11Window,"glfwGetX11Window");
+                bindMixedFunc(cast(void**)&glfwGetGLXContext, "glfwGetGLXContext");
+                bindMixedFunc(cast(void**)&glfwGetGLXWindow, "glfwGetGLXWindow");
+            }
+        }
+    }
+    alias DerelictGLFW3_NativeBind = DerelictGLFW3_X11Bind;
+
+    mixin template DerelictGLFW3_WaylandBind() {
+        extern(C) @nogc nothrow {
+            alias da_glfwGetWaylandDisplay = wl_display* function();
+            alias da_glfwGetWaylandMonitor = wl_output* function(GLFWmonitor*);
+            alias da_glfwGetWaylandWindow = wl_surface* function(GLFWwindow*);
+        }
+
+        __gshared {
+            da_glfwGetWaylandDisplay glfwGetWaylandDisplay;
+            da_glfwGetWaylandMonitor glfwGetWaylandMonitor;
+            da_glfwGetWaylandWindow glfwGetWaylandWindow;
+        }
+
+        void DerelictGLFW3_loadX11() {
+            assert(DerelictGLFW3.isLoaded);
+
+            with(DerelictGLFW3) {
+                bindMixedFunc(cast(void**)&glfwGetWaylandDisplay, "glfwGetWaylandDisplay");
+                bindMixedFunc(cast(void**)&glfwGetWaylandMonitor, "glfwGetWaylandMonitor");
+                bindMixedFunc(cast(void**)&glfwGetWaylandWindow,"glfwGetWaylandWindow");
+            }
+        }
+    }
+
+    mixin template DerelictGLFW3_MirBind() {
+        extern(C) @nogc nothrow {
+            alias da_glfwGetMirDisplay = MirConnection* function();
+            alias da_glfwGetMirMonitor = int function(GLFWmonitor*);
+            alias da_glfwGetMirWindow = MirSurface* function(GLFWwindow*);
+        }
+
+        __gshared {
+            da_glfwGetMirDisplay glfwGetMirDisplay;
+            da_glfwGetMirMonitor glfwGetMirMonitor;
+            da_glfwGetMirWindow glfwGetMirWindow;
+        }
+
+        void DerelictGLFW3_loadX11() {
+            assert(DerelictGLFW3.isLoaded);
+
+            with(DerelictGLFW3) {
+                bindMixedFunc(cast(void**)&glfwGetMirDisplay, "glfwGetMirDisplay");
+                bindMixedFunc(cast(void**)&glfwGetMirMonitor, "glfwGetMirMonitor");
+                bindMixedFunc(cast(void**)&glfwGetMirWindow,"glfwGetMirWindow");
+            }
+        }
+    }
+
+}
+
