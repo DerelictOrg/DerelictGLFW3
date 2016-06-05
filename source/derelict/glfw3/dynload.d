@@ -427,6 +427,7 @@ static if(Derelict_OS_Mac) {
                 bindMixedFunc(cast(void**)&glfwGetNSGLContext,"glfwGetNSGLContext");
             }
         }
+        alias DerelictGLFW3_loadNative = DerelictGLFW3_loadMac;
     }
     alias DerelictGLFW3_NativeBind = DerelictGLFW3_MacBind;
 }
@@ -456,6 +457,7 @@ else static if(Derelict_OS_Windows) {
                 bindMixedFunc(cast(void**)&glfwGetWGLContext,"glfwGetWGLContext");
             }
         }
+        alias DerelictGLFW3_loadNative = DerelictGLFW3_loadWindows;
     }
     alias DerelictGLFW3_NativeBind = DerelictGLFW3_WindowsBind;
 }
@@ -491,6 +493,7 @@ else static if(Derelict_OS_Posix) {
                 bindMixedFunc(cast(void**)&glfwGetGLXWindow, "glfwGetGLXWindow");
             }
         }
+        alias DerelictGLFW3_loadNative = DerelictGLFW3_loadX11;
     }
     alias DerelictGLFW3_NativeBind = DerelictGLFW3_X11Bind;
 
