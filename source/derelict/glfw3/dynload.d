@@ -362,9 +362,9 @@ shared static this() {
 mixin template DerelictGLFW3_VulkanBind() {
     extern(C) @nogc nothrow {
         alias da_glfwGetRequiredInstanceExtensions = const(char)** function(uint*);
-        alias da_glfwGetInstanceProcAddress = GLFWvkproc function(Vkinstance,const(char)*);
+        alias da_glfwGetInstanceProcAddress = GLFWvkproc function(VkInstance,const(char)*);
         alias da_glfwGetPhysicalDevicePresentationSupport = int function(VkInstance,VkPhysicalDevice,uint);
-        alias da_glfwCreateWindowSurface = VkResult function(VkInstance,GLFWwindow*,const(VkAllocationCallbacks),VkSurfaceKHR*);
+        alias da_glfwCreateWindowSurface = VkResult function(VkInstance,GLFWwindow*,const(VkAllocationCallbacks)*,VkSurfaceKHR*);
     }
 
     __gshared {
