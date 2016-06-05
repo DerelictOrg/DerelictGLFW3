@@ -34,6 +34,11 @@ enum {
 }
 
 enum {
+    GLFW_FALSE,
+    GLFW_TRUE,
+}
+
+enum {
     GLFW_RELEASE = 0,
     GLFW_PRESS = 1,
     GLFW_REPEAT = 2,
@@ -262,6 +267,7 @@ enum {
     GLFW_OPENGL_PROFILE = 0x00022008,
     GLFW_CONTEXT_RELEASE_BEHAVIOR = 0x00022009,
 
+    GLFW_NO_API = 0,
     GLFW_OPENGL_API = 0x00030001,
     GLFW_OPENGL_ES_API = 0x00030002,
 
