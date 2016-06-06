@@ -123,21 +123,77 @@ extern(System) @nogc nothrow {
     int glfwExtensionSupported(const(char)*);
     GLFWglproc glfwGetProcAddress(const(char)*);
     int glfwVulkanSupported();
-    /*
-    TODO Not sure how to handle this yet.
+}
 
-    const(char)** glfwGetRequiredInstanceExtensions(uint*);
-    GLFWvkproc glfwGetInstanceProcAddress(VkInstance,const(char)*);
-    int glfwGetPhysicalDevicePresentationSupport(Vkinstance,VKPhysicalDevice,uint);
-    VkResult glfwCreateWindowSurface(VkInstance,GLFWwindow*,const(VkAllocationCallbacks),VkSurfaceKHR*);
-    */
-
-    version(OSX) {
-        void* glfwGetCocoaWindow(GLFWwindow* window);
-        void* glfwGetNSGLContext(GLFWwindow* window);
-    }
-    else version(Windows) {
-        void* glfwGetWin32Window(GLFWwindow* window);
-        void* glfwGetWGLContext(GLFWwindow* window);
+// Mixins to allow linking with Vulkan & OS native functions using the
+// types declared in whatever Vulkan or OS binding an app is using.
+mixin template DerelictGLFW3_VulkanBind() {
+    extern(C) @nogc nothrow {
+        const(char)** glfwGetRequiredInstanceExtensions(uint*);
+        GLFWvkproc glfwGetInstanceProcAddress(VkInstance,const(char)*);
+        int glfwGetPhysicalDevicePresentationSupport(VkInstance,VkPhysicalDevice,uint);
+        VkResult glfwCreateWindowSurface(VkInstance,GLFWwindow*,const(VkAllocationCallbacks)*,VkSurfaceKHR*);
     }
 }
+
+mixin template DerelictGLFW3_EGLBind() {
+    extern(C) @nogc nothrow {
+        EGLDisplay glfwGetEGLDisplay();
+        EGLContext glfwGetEGLContext(GLFWwindow*);
+        EGLSurface glfwGetEGLSurface(GLFWwindow*);
+    }
+}
+
+// The static binding shouldn't depend on DerelictUtil, so use
+// version identifiers here rather than static if with Derelict_OS_*.
+version(OSX) {
+    mixin template DerelictGLFW3_MacBind() {
+        extern(C) @nogc nothrow {
+            CGDirectDisplayID glfwGetCocoaMonitor(GLFWmonitor*);
+            id glfwGetCocoaWindow(GLFWwindow*);
+            id glfwGetNSGLContext(GLFWwindow*);
+        }
+    }
+    alias DerelictGLFW3_NativeBind = DerelictGLFW3_MacBind;
+}
+else version(Windows) {
+    mixin template DerelictGLFW3_WindowsBind() {
+        extern(C) @nogc nothrow {
+            const(char)* glfwGetWin32Adapter(GLFWmonitor*);
+            const(char)* glfwGetWin32Monitor(GLFWmonitor*);
+            HWND glfwGetWin32Window(GLFWwindow*);
+            HGLRC glfwGetWGLContext(GLFWwindow*);
+        }
+    }
+    alias DerelictGLFW3_NativeBind = DerelictGLFW3_WindowsBind;
+}
+else version(Posix) {
+    mixin template DerelictGLFW3_X11Bind() {
+        extern(C) @nogc nothrow {
+            Display* glfwGetX11Display();
+            RRCrtc glfwGetX11Adapter(GLFWmonitor*);
+            RROutput glfwGetX11Monitor(GLFWmonitor*);
+            Window glfwGetX11Window(GLFWwindow*);
+            GLXContext glfwGetGLXContext(GLFWwindow*);
+            GLXwindow glfwGetGLXWindow(GLFWwindow*);
+        }
+    }
+    alias DerelictGLFW3_NativeBind = DerelictGLFW3_X11Bind;
+
+    mixin template DerelictGLFW3_WaylandBind() {
+        extern(C) @nogc nothrow {
+            wl_display* glfwGetWaylandDisplay();
+            wl_output* glfwGetWaylandMonitor(GLFWmonitor*);
+            wl_surface* glfwGetWaylandWindow(GLFWwindow*);
+        }
+    }
+
+    mixin template DerelictGLFW3_MirBind() {
+        extern(C) @nogc nothrow {
+            MirConnection* glfwGetMirDisplay();
+            int glfwGetMirMonitor(GLFWmonitor*);
+            MirSurface* glfwGetMirWindow(GLFWwindow*);
+        }
+    }
+}
+

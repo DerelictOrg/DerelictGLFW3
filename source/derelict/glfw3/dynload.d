@@ -386,7 +386,7 @@ mixin template DerelictGLFW3_VulkanBind() {
     }
 }
 
-mixin template DerelictGLFW3_MirBind() {
+mixin template DerelictGLFW3_EGLBind() {
     extern(C) @nogc nothrow {
         alias da_glfwGetEGLDisplay = EGLDisplay function();
         alias da_glfwGetEGLContext = EGLContext function(GLFWwindow*);
@@ -399,7 +399,7 @@ mixin template DerelictGLFW3_MirBind() {
         da_glfwGetEGLSurface glfwGetEGLSurface;
     }
 
-    void DerelictGLFW3_loadX11() {
+    void DerelictGLFW3_loadEGK() {
         assert(DerelictGLFW3.isLoaded);
 
         with(DerelictGLFW3) {
@@ -510,7 +510,7 @@ else static if(Derelict_OS_Posix) {
             da_glfwGetWaylandWindow glfwGetWaylandWindow;
         }
 
-        void DerelictGLFW3_loadX11() {
+        void DerelictGLFW3_loadWayland() {
             assert(DerelictGLFW3.isLoaded);
 
             with(DerelictGLFW3) {
@@ -534,7 +534,7 @@ else static if(Derelict_OS_Posix) {
             da_glfwGetMirWindow glfwGetMirWindow;
         }
 
-        void DerelictGLFW3_loadX11() {
+        void DerelictGLFW3_loadMir() {
             assert(DerelictGLFW3.isLoaded);
 
             with(DerelictGLFW3) {
