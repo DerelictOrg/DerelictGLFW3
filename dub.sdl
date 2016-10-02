@@ -9,7 +9,7 @@ targetName "DerelictGLFW3"
 
 configuration "derelict-glfw3-dynamic" {
     excludedSourceFiles "source/derelict/glfw3/statfun.d"
-    dependency "derelict-util" version="~>2.0.4"
+    dependency "derelict-util" version="~>3.0.0"
 }
 
 configuration "derelict-glfw3-static" {
