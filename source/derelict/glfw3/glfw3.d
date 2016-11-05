@@ -27,8 +27,10 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.glfw3.glfw3;
 
+version(Derelict_Static) version = DerelictGLFW3_Static;
+
 public:
-    version(DerelictGLFW3Static)
+    version(DerelictGLFW3_Static)
         import derelict.glfw3.statfun;
     else
         import derelict.glfw3.dynload;

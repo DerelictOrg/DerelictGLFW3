@@ -14,5 +14,5 @@ configuration "derelict-glfw3-dynamic" {
 
 configuration "derelict-glfw3-static" {
     excludedSourceFiles "source/derelict/glfw3/dynload"
-    versions "DerelictGLFW3Static"
+    versions "DerelictGLFW3_Static"
 }
