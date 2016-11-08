@@ -27,10 +27,10 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.glfw3.dynload;
 
-version(DerelictGLFW3Static) {}
-else { version = DerelictGLFW3Dynamic; }
+version(DerelictGLFW3_Static) {}
+else { version = DerelictGLFW3_Dynamic; }
 
-version(DerelictGLFW3Dynamic):
+version(DerelictGLFW3_Dynamic):
 
 public import derelict.glfw3.types;
 import derelict.util.loader;

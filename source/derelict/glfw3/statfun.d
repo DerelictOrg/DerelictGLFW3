@@ -27,7 +27,7 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.glfw3.statfun;
 
-version(DerelictGLFW3Static):
+version(DerelictGLFW3_Static):
 
 public import derelict.glfw3.types;
 
