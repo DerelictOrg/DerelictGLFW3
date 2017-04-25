@@ -27,25 +27,15 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.glfw3.dynload;
 
-version(DerelictGLFW3_Static) {}
+version(Derlict_Static) {}
+else version(DerelictGLFW3_Static) {}
 else { version = DerelictGLFW3_Dynamic; }
 
 version(DerelictGLFW3_Dynamic):
 
 public import derelict.glfw3.types;
-import derelict.util.loader;
-import derelict.util.system;
-
-private {
-    static if(Derelict_OS_Windows)
-        enum libNames = "glfw3.dll";
-    else static if(Derelict_OS_Mac)
-        enum libNames = "libglfw.3.dylib,libglfw3.dylib";
-    else static if(Derelict_OS_Posix)
-        enum libNames = "libglfw3.so,libglfw.so.3,/usr/local/lib/libglfw3.so,/usr/local/lib/libglfw.so.3";
-    else
-        static assert(0,"Need to implement GLFW libNames for this operating system.");
-}
+import derelict.util.loader,
+       derelict.util.system;
 
 extern(C) @nogc nothrow {
     alias da_glfwInit = int function();
@@ -247,16 +237,18 @@ __gshared {
 }
 
 class DerelictGLFW3Loader : SharedLibLoader {
-    public this() {
+    this()
+    {
         super(libNames);
     }
 
-    public void bindMixedFunc(void** ptr, string name)
+    void bindMixedFunc(void** ptr, string name)
     {
         return bindFunc(ptr, name);
     }
 
-    protected override void loadSymbols() {
+    protected override void loadSymbols()
+    {
         bindFunc(cast(void**)&glfwInit,"glfwInit");
         bindFunc(cast(void**)&glfwTerminate,"glfwTerminate");
         bindFunc(cast(void**)&glfwGetVersion,"glfwGetVersion");
@@ -547,3 +539,12 @@ else static if(Derelict_OS_Posix) {
 
 }
 
+private:
+    static if(Derelict_OS_Windows)
+        enum libNames = "glfw3.dll";
+    else static if(Derelict_OS_Mac)
+        enum libNames = "libglfw.3.dylib,libglfw3.dylib";
+    else static if(Derelict_OS_Posix)
+        enum libNames = "libglfw3.so,libglfw.so.3,/usr/local/lib/libglfw3.so,/usr/local/lib/libglfw.so.3";
+    else
+        static assert(0,"Need to implement GLFW libNames for this operating system.");
