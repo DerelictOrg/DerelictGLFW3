@@ -32,7 +32,7 @@ version(DerelictGLFW3_Static):
 
 public import derelict.glfw3.types;
 
-extern(System) @nogc nothrow {
+extern(C) @nogc nothrow {
     int glfwInit();
     void glfwTerminate();
     void glfwGetVersion(int*,int*,int*);
