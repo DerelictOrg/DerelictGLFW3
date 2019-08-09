@@ -19,8 +19,8 @@ void main() {
 
 The static binding allows you to link with the GLFW3 library both dynamically and statically. To enable this configuration, you must specify it as a subConfiguration in your __dub.sdl__ file, or compile DerelictGLFW3 manually with __-version=DerelictGLFW3Static__. See the [DerelictGLFW3 documentation][5] for more information on this configuration.
 
-[1]: http://www.glfw.org/
-[2]: https://derelictorg.github.io/packages/glfw3.html
-[3]: http://derelictorg.github.io/building/overview/
-[4]: http://derelictorg.github.io/loading/loader/
-[5]: https://derelictorg.github.io/packages/glfw3.html#statbind
+[1]: https://www.glfw.org/
+[2]: https://derelictorg.github.io/packages/glfw3/
+[3]: https://derelictorg.github.io/building/overview/
+[4]: https://derelictorg.github.io/loading/loader/
+[5]: https://derelictorg.github.io/packages/glfw3/#choosing-the-configuration
